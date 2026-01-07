@@ -1,0 +1,22 @@
+
+#This YAML file tells GitHub to boot a Linux environment, compile the C code, and run the grader script every time a student pushes code.
+
+
+name: Autograding
+on: [push]
+
+jobs:
+  grade:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Valgrind
+        run: sudo apt-get update && sudo apt-get install -y valgrind
+        
+      - name: Compile Scheduler
+        run: gcc -o scheduler scheduler.c -Wall
+
+      - name: Run Autograder
+        run: python3 autograder.py
